@@ -35,7 +35,7 @@ namespace Rn.Languages.RnLanguages
         }
 
         //copied from rn-i18n module
-        private IList GetLocaleList()
+        private string[] GetLocaleList()
         {
             var returnList = new List<string>();
             var langList = Windows.System.UserProfile.GlobalizationPreferences.Languages;
