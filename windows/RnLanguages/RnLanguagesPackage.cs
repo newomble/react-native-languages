@@ -24,7 +24,7 @@ namespace Rn.Languages.RnLanguages
         {
             return new List<INativeModule>
             {
-                new RnLanguagesModule(),
+                new RnLanguagesModule(reactContext),
             };
         }
 

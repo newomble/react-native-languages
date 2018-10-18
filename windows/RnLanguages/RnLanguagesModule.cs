@@ -1,13 +1,10 @@
+using ReactNative;
 using ReactNative.Bridge;
+using ReactNative.Modules.Core;
 using System;
 using System.Collections.Generic;
-using Windows.ApplicationModel.Core;
-using Windows.UI.Core;
+using Windows.UI.Text.Core;
 
-/**
- * This is stubbed so I can move on while using this machine.
- * Event binding is implemented
- */
 namespace Rn.Languages.RnLanguages
 {
     /// <summary>
@@ -15,12 +12,16 @@ namespace Rn.Languages.RnLanguages
     /// </summary>
     class RnLanguagesModule : NativeModuleBase
     {
+        private ReactContext context;
+
         /// <summary>
         /// Instantiates the <see cref="RnLanguagesModule"/>.
         /// </summary>
-        internal RnLanguagesModule()
+        internal RnLanguagesModule(ReactContext _context)
         {
-
+            this.context = _context;
+            CoreTextServicesManager.GetForCurrentView().InputLanguageChanged += 
+                OnLanguageChange;
         }
 
         /// <summary>
@@ -34,8 +35,7 @@ namespace Rn.Languages.RnLanguages
             }
         }
 
-        //copied from rn-i18n module
-        private string[] GetLocaleList()
+        private Dictionary<string, object> GetLanguageOutput()
         {
             var returnList = new List<string>();
             var langList = Windows.System.UserProfile.GlobalizationPreferences.Languages;
@@ -46,20 +46,26 @@ namespace Rn.Languages.RnLanguages
                 returnList.Add(curr);
             }
 
-            return returnList.ToArray();
+            var locals = returnList.ToArray();
+            return new Dictionary<string, object>
+            {
+                {"languages",  locals},
+                {"language", locals[0]}
+            };
         }
 
         public override IReadOnlyDictionary<string, object> Constants
         {
             get
             {
-                var locals = this.GetLocaleList();
-                return new Dictionary<string, object>
-                {
-                    {"languages",  locals},
-                    {"language", locals[0]}
-                };
+                return this.GetLanguageOutput();
             }
+        }
+
+        private void OnLanguageChange(CoreTextServicesManager sender, object args)
+        {
+            context.GetJavaScriptModule<RCTDeviceEventEmitter>()
+                .emit("languagesDidChange", this.GetLanguageOutput());
         }
     }
 }

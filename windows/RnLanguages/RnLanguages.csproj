@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{FC8C3180-D221-11E8-AD84-C3576A7A4314}</ProjectGuid>
+    <ProjectGuid>{110D74A0-D2DD-11E8-B199-3995C17547BE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Rn.Languages</RootNamespace>
