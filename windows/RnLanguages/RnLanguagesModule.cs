@@ -31,7 +31,7 @@ namespace Rn.Languages.RnLanguages
         {
             get
             {
-                return "RnLanguages";
+                return "RNLanguages";
             }
         }
 
